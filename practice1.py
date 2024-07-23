@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup as bs
-import pandas
+import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
@@ -28,11 +28,23 @@ WebDriverWait(driver, 10).until(
 columntype = driver.find_element(By.CLASS_NAME, "columnType")
 columntype.click()
 
-names = driver.find_elements(By.CLASS_NAME, "prdName")
-names = [names.text() for name in names]
-prices = driver.find_elements(By.TAG_NAME, "b")
-prices = [prices.text() for price in prices]
-'''for commodity in name:
-    print(commodity.text)
-'''
+rownames = driver.find_elements(By.CLASS_NAME, "prdName")
+names = []
+for rowname in rownames:
+    names.append(rowname.text.strip())
+
+rowprices = driver.find_elements(By.TAG_NAME, "b")
+prices = []
+for rowprice in rowprices:
+    prices.append(rowprice.text.strip())
+
+product = list(zip(names, prices))
+table = pd.DataFrame(product)
+table = table.dropna()
+pd.set_option('display.max_columns', None)
+table.columns = ['品名', '價格']
+print(table)
+
+table.to_excel('顯卡價格.xlsx', sheet_name='工作表1', index=False, startrow=1)
+
 time.sleep(5)

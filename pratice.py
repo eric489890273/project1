@@ -1,5 +1,5 @@
-print("hello")
-'''
+'''print("hello")
+
 # 將資料轉成表格形式，僅顯示需要的欄位
 DF = pd.DataFrame(data)
 DF = DF.dropna()

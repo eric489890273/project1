@@ -11,3 +11,12 @@ DF2 = DF[['股名', '股號', '股價', '漲跌', '漲跌幅(%)', '最高', '最
 # 儲存為 Excel 文件
 DF2.to_excel('成交量.xlsx', sheet_name='工作表1', index=False, startrow=1)
 '''
+from pyproj import Proj
+
+# 顯著調整 toWGS84 的 X, Y, Z 平移值
+twd67_TM2_taiwan = twd67_TM2_taiwan = Proj('EPSG:3828')
+
+# 測試轉換
+lat, lon = 23.638192, 120.59426
+x, y = twd67_TM2_taiwan(lon, lat)
+print(f'轉換結果: {x}, {y}')

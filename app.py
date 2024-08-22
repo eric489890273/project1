@@ -1,5 +1,5 @@
-from flask import Flask
-from flask import render_template
+from flask import Flask, render_template, redirect, url_for
+import subprocess
 
 # 建立一個 Flask 應用程式
 app = Flask(__name__)
@@ -41,6 +41,28 @@ def pageData():
 @app.route('/static')
 def staticPage():
     return render_template('static.html')
+
+
+# 定義一個路徑（/index）
+@app.route('/index')
+def index():
+    return render_template('index.html')
+
+
+# 定義一個路徑（/run_script）
+@app.route('/run_script', methods=['POST'])
+def run_script():
+    # 執行外部 Python 檔案
+    subprocess.run(['python', 'catch_ETF_info.py'], capture_output=True, text=True)
+    # 捕獲並返回腳本的輸出
+    return render_template('result.html')
+
+
+# 定義一個路徑（/back）
+@app.route('/back', methods=['POST'])
+def back():
+    # 捕獲並返回腳本的輸出
+    return redirect(url_for('index'))
 
 
 # 確保程式直接執行時啟動伺服器

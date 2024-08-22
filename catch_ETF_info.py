@@ -37,8 +37,8 @@ cursor.execute(f"IF OBJECT_ID('[{tablename}]', 'U') IS NOT NULL DROP TABLE [{tab
 create_table_query = f'''
 create table [{tablename}] (
     date DATE NOT NULL,
-    ranking INT PRIMARY KEY IDENTITY(1, 1),
-    name NVARCHAR(50) NOT NULL,
+    ranking INT NOT NULL IDENTITY(1, 1),
+    name NVARCHAR(50) PRIMARY KEY,
     number NVARCHAR(50) NOT NULL,
     price DECIMAL(7, 2) NOT NULL,
     high DECIMAL(7, 2) NOT NULL,

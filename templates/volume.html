@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ETF 資訊</title>
+    <title>ETF 成交量排行</title>
     <style>
         body {
             display: flex;
@@ -39,14 +39,15 @@
 </head>
 <body>
     <div>
-        <h1>ETF 每日資訊</h1>
-        <form action="/run_script" method="post">
-            <button type="submit">抓取資料</button>
-        </form>
-        <div class="spacer"></div>
-        <h2 class="title">資料清單</h2>
-        <form action="/to_volume" method="post">
-            <button type="submit">成交量</button>
+        <h1>ETF 每日成交量排行</h1>
+        <form action="/data" method="post">
+            <label for="tables">請選擇日期：</label>
+            <select name="tables" id="tables">
+                {% for table in tables%}
+                <option value="{{table}}">{{table}}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="查詢">
         </form>
     </div>
 </body>

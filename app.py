@@ -40,7 +40,7 @@ def index():
 @app.route('/run_script', methods=['POST'])
 def run_script():
     # 執行外部 Python 檔案
-    subprocess.run(['python', 'catch_ETF_info.py'], capture_output=True, text=True)
+    subprocess.run(['python', 'catch_ETF_volume.py'], capture_output=True, text=True)
     # 捕獲並返回腳本的輸出
     return render_template('result.html')
 
@@ -65,6 +65,7 @@ def volume():
     # 獲取所有資料表名稱
     inspector = inspect(db.engine)
     dates = inspector.get_table_names()
+    dates = [name.replace('ETF排行', '') for name in dates]
     return render_template('volume.html', dates=dates)
 
 
@@ -74,13 +75,14 @@ def data():
     # 獲取所有資料表名稱
     inspector = inspect(db.engine)
     dates = inspector.get_table_names()
+    dates = [name.replace('ETF排行', '') for name in dates]
     # 獲取選單送出的值
     table_name = request.form.get('tables')
     # 設定SQL查詢語句並執行
-    quary = text(f'SELECT * FROM [{table_name}]')
+    quary = text(f'SELECT * FROM [ETF排行{table_name}]')
     result = db.session.execute(quary).fetchall()
     # 設定欄位名稱
-    columns = ['日期', '排名', '股名', '股號', '股價', '最高', '最低', '價差', '成交量']
+    columns = ['日期', '排名', '股名', '股號', '股價', '最高', '最低', '價差', '成交量(張)']
 
     return render_template('data.html', dates=dates, table_name=table_name, columns=columns, rows=result)
 

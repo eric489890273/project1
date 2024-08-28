@@ -23,6 +23,7 @@
             background-color: #007BFF; /* 背景顏色 */
             color: white; /* 文字顏色 */
             cursor: pointer; /* 指標顯示為手型 */
+            transition: background-color 0.3s ease /* 平滑顏色過渡 */
         }
         button:hover {
             background-color: #0056b3; /* 滑鼠懸停時改變背景顏色 */
@@ -34,6 +35,73 @@
             font-size: 36px;
             font-weight: bold;
             margin-bottom: 20px; /* 設定title標籤的字體規格 */
+        }
+        label{
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 20px; /* 設定label的字體規格 */
+        }
+        select {
+            font-size: 18px; /* 調整字體大小 */
+            padding: 10px 15px; /* 調整內邊距 */
+            border-radius: 8px; /* 調整圓角 */
+            border: 1px solid #dddddd; /* 邊框顏色 */
+            background-color: #ffffff; /* 背景顏色 */
+            color: #333333; /* 文字顏色 */
+            appearance: none; /* 移除原生下拉箭頭 */
+            cursor: pointer; /* 指標顯示為手型 */
+            outline: none; /* 去掉焦點邊框 */
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* 添加輕微陰影 */
+            width: 200px; /* 設定寬度 */
+            transition: border-color 0.3s ease; /* 平滑的邊框顏色過渡 */
+        }
+        select:hover {
+            border-color: #007BFF; /* 懸停時邊框顏色 */
+        }
+        select:focus {
+            border-color: #0056b3; /* 焦點時邊框顏色 */
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* 焦點時陰影 */
+        }
+        select::-ms-expand {
+            display: none; /* 移除IE和Edge的箭頭 */
+        }
+        select::-webkit-select-arrow {
+            display: none; /* 隱藏原生下拉箭頭 */
+        }
+        .select-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+        .select-wrapper::after {
+            content: '▼'; /* 使用 Unicode 字符作為箭頭 */
+            font-size: 18px; /* 調整箭頭字體大小 */
+            color: #333333; /* 箭頭顏色 */
+            position: absolute;
+            right: 10px; /* 位置調整 */
+            top: 50%;
+            transform: translateY(-50%); /* 垂直置中 */
+            pointer-events: none; /* 讓箭頭不影響點擊 */
+        }
+        input[type="submit"] {
+            font-size: 18px; /* 調整文字大小 */
+            font-weight: bold; /* 設置字體為粗體 */
+            padding: 10px 20px; /* 調整內邊距 */
+            border-radius: 8px; /* 調整圓角 */
+            border: 1px solid #007BFF; /* 按鈕邊框顏色 */
+            background-color: #007BFF; /* 背景顏色 */
+            color: white; /* 文字顏色 */
+            cursor: pointer; /* 指標顯示為手型 */
+            outline: none; /* 去掉焦點邊框 */
+            transition: background-color 0.3s ease, border-color 0.3s ease; /* 平滑的背景顏色和邊框顏色過渡 */
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3; /* 懸停時背景顏色 */
+            border-color: #0056b3; /* 懸停時邊框顏色 */
+        }
+        input[type="submit"]:focus {
+            background-color: #004494; /* 焦點時背景顏色 */
+            border-color: #004494; /* 焦點時邊框顏色 */
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* 焦點時陰影 */
         }
     </style>
 </head>

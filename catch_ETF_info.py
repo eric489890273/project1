@@ -30,7 +30,7 @@ conn = pyodbc.connect(connection_string)
 # 建立游標
 cursor = conn.cursor()
 
-# 若表格存在 先刪除
+# 若資料表存在 先刪除
 cursor.execute(f"IF OBJECT_ID('[{tablename}]', 'U') IS NOT NULL DROP TABLE [{tablename}]")
 
 # 創建一個資料表，用來存取今日抓取下來的資料

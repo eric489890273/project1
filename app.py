@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, request
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import inspect
+from sqlalchemy import inspect, text
 import urllib
 import subprocess
 import urllib.parse
@@ -100,18 +100,24 @@ def to_volume():
 @app.route('/volume')
 def volume():
     inspector = inspect(db.engine)
-    tables = inspector.get_table_names()
-    return render_template('volume.html', tables=tables)
+    dates = inspector.get_table_names()
+    return render_template('volume.html', dates=dates)
 
 
 # 定義一個路徑(/data)
-@app.route('/data')
+@app.route('/data', methods=['POST'])
 def data():
-    table_name = request.form.get('tables')
-    if table_name in inspect(db.engine).get_table_names():
+    inspector = inspect(db.engine)
+    dates = inspector.get_table_names()
 
+    table_name = request.form.get('tables')
+    quary = text(f'SELECT * FROM [{table_name}]')
+    result = db.session.execute(quary).fetchall()
+    columns = ['日期', '排名', '股名', '股號', '股價', '最高', '最低', '價差', '成交量']
+
+    return render_template('data.html', dates=dates, table_name=table_name, columns=columns, rows=result)
 
 
 # 確保程式直接執行時啟動伺服器
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5000)

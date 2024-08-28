@@ -33,7 +33,43 @@
         .title {
             font-size: 36px;
             font-weight: bold;
-            margin-bottom: 20px; /* 在資料清單與按鈕之間添加空間 */
+            margin-bottom: 20px; /* 設定title標籤的字體規格 */
+        }
+        table {
+            width: 100%; /* 使表格寬度填滿可用空間 */
+            border-collapse: separate; /* 保持單元格之間的間隙以實現圓角效果 */
+            border-spacing: 0; /* 消除單元格之間的間距 */
+            margin-bottom: 20px; /* 添加一些底部間距 */
+            border: 1px solid #dddddd; /* 表格外框邊框顏色 */
+            border-radius: 12px; /* 表格外框圓角 */
+            overflow: hidden; /* 確保內容不超出圓角範圍 */
+        }
+        th, td {
+            border: 1px solid #dddddd; /* 表格單元格邊框顏色 */
+            text-align: center; /* 表格內容置中 */
+            padding: 12px; /* 表格內邊距 */
+            font-family:Microsoft JhengHei; /* 表格內字體 */
+        }
+
+        th {
+            background-color: #007BFF; /* 表頭背景顏色 */
+            color: white; /* 表頭文字顏色 */
+            font-weight: bold; /* 表頭字體加粗 */
+            font-size: 22px; /* 表頭內容字體大小 */
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2; /* 奇數行背景顏色 */
+        }
+
+        tr:hover {
+            background-color: #ddd; /* 滑鼠懸停時的行背景顏色 */
+        }
+
+        td {
+            font-size: 18px; /* 表格內容字體大小 */
+            color: #333; /* 表格內容文字顏色 */
+            font-weight: bold; /* 表頭字體加粗 */
         }
     </style>
 </head>
@@ -41,14 +77,39 @@
     <div>
         <h1>ETF 每日成交量排行</h1>
         <form action="/data" method="post">
-            <label for="date">請選擇日期：</label>
-            <select name="date" id="date">
-                {% for table in tables%}
-                <option value="{{table}}">{{table}}</option>
+            <label for="tables">請選擇日期：</label>
+            <select name="tables" id="tables">
+                {% for dates in dates %}
+                <option value="{{dates}}">{{dates}}</option>
                 {% endfor %}
             </select>
             <input type="submit" value="查詢">
         </form>
+        <br>
+        <form action="/back" method="post">
+            <button type="submit">返回</button>
+        </form>
+        <br>
+        <h2 class="title">{{table_name}}</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    {% for column in columns %}
+                    <th>{{ column }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rows %}
+                <tr>
+                    {% for cell in row %}
+                    <td>{{ cell }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br>
     </div>
 </body>
 </html>

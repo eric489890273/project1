@@ -23,42 +23,11 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 
-# 定義一個路徑(/page/text)
-@app.route('/page/text')
-def pageText():
-    return render_template('page.html', text="Python Flask !")
-
-
-# 定義一個路徑(/page/app)
-@app.route('/page/app')
-def pageAppInfo():
-    appInfo = {  # dict
-        'id': 5,
-        'name': 'Python - Flask',
-        'version': '1.0.1',
-        'author': 'Enoxs',
-        'remark': 'Python - Web Framework'
-    }
-    return render_template('page.html', appInfo=appInfo)
-
-
-# 定義一個路徑(/page/data)
-@app.route('/page/data')
-def pageData():
-    data = {  # dict
-        '01': 'Text Text Text',
-        '02': 'Text Text Text',
-        '03': 'Text Text Text',
-        '04': 'Text Text Text',
-        '05': 'Text Text Text'
-    }
-    return render_template('page.html', data=data)
-
-
-# 定義一個路徑(/static)
-@app.route('/static')
-def staticPage():
-    return render_template('static.html')
+# 定義一個路徑(/)
+@app.route('/')
+def home():
+    # 重新定向回首頁面
+    return redirect(url_for('index'))
 
 
 # 定義一個路徑(/index)
@@ -83,12 +52,6 @@ def back():
     return redirect(url_for('index'))
 
 
-# 定義一個路徑(/home)
-@app.route('/home')
-def home():
-    return render_template('home.html')
-
-
 # 定義一個路徑(/to_volume)
 @app.route('/to_volume', methods=['POST'])
 def to_volume():
@@ -99,6 +62,7 @@ def to_volume():
 # 定義一個路徑(/volume)
 @app.route('/volume')
 def volume():
+    # 獲取所有資料表名稱
     inspector = inspect(db.engine)
     dates = inspector.get_table_names()
     return render_template('volume.html', dates=dates)
@@ -107,12 +71,15 @@ def volume():
 # 定義一個路徑(/data)
 @app.route('/data', methods=['POST'])
 def data():
+    # 獲取所有資料表名稱
     inspector = inspect(db.engine)
     dates = inspector.get_table_names()
-
+    # 獲取選單送出的值
     table_name = request.form.get('tables')
+    # 設定SQL查詢語句並執行
     quary = text(f'SELECT * FROM [{table_name}]')
     result = db.session.execute(quary).fetchall()
+    # 設定欄位名稱
     columns = ['日期', '排名', '股名', '股號', '股價', '最高', '最低', '價差', '成交量']
 
     return render_template('data.html', dates=dates, table_name=table_name, columns=columns, rows=result)

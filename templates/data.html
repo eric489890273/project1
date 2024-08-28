@@ -76,6 +76,7 @@
 <body>
     <div>
         <h1>ETF 每日成交量排行</h1>
+        <!-- 創建一個下拉式選單，選項從資料庫裡抓資料表名 -->
         <form action="/data" method="post">
             <label for="tables">請選擇日期：</label>
             <select name="tables" id="tables">
@@ -83,13 +84,16 @@
                 <option value="{{dates}}">{{dates}}</option>
                 {% endfor %}
             </select>
+            <!-- 送出選擇 -->
             <input type="submit" value="查詢">
         </form>
         <br>
+        <!-- 建立返回主頁按鈕 -->
         <form action="/back" method="post">
             <button type="submit">返回</button>
         </form>
         <br>
+        <!-- 用從資料表中提取的資料建立表格 -->
         <h2 class="title">{{table_name}}</h2>
         <table border="1">
             <thead>
